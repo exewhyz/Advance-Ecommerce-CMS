@@ -2,8 +2,18 @@
 
 import Link from "next/link"
 import { useParams, usePathname } from "next/navigation";
+import { ChevronDown } from "lucide-react";
 
 import { cn } from "@/lib/utils"
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
 
 export function MainNav({
   className,
@@ -11,7 +21,6 @@ export function MainNav({
 }: React.HTMLAttributes<HTMLElement>) {
   const pathname = usePathname();
   const params = useParams();
-
   const routes = [
     {
       href: `/${params.storeId}`,
@@ -52,26 +61,66 @@ export function MainNav({
       href: `/${params.storeId}/settings`,
       label: 'Settings',
       active: pathname === `/${params.storeId}/settings`,
-    },
+    }
   ]
 
+  let filteredRoutes = routes.filter((item) =>{
+    if (item.label === 'Settings' || item.label === 'Orders') {
+      return false;
+    }
+    return true;
+  })
+
   return (
-    <nav
-      className={cn("flex items-center space-x-4 lg:space-x-6", className)}
-      {...props}
-    >
-      {routes.map((route) => (
-        <Link
-          key={route.href}
-          href={route.href}
-          className={cn(
-            'text-sm font-medium transition-colors hover:text-primary',
-            route.active ? 'text-black dark:text-white' : 'text-muted-foreground'
-          )}
-        >
-          {route.label}
-      </Link>
-      ))}
-    </nav>
+    <>
+      <nav
+        className={cn("lg:hidden flex items-center space-x-4 lg:space-x-6", className)}
+        {...props}
+      >
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="sm" className={cn(
+              'text-sm font-medium transition-colors hover:text-primary text-muted-foreground dark:text-white'
+            )}>
+              Editor <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-40 h-fit flex items-center justify-center" align="end" forceMount>
+            <DropdownMenuGroup>
+              {filteredRoutes.map((route) => (
+                <DropdownMenuItem key={route.href}>
+                  <Link
+                    key={route.href}
+                    href={route.href}
+                    className={cn(
+                      'text-sm font-medium transition-colors hover:text-primary',
+                      route.active ? 'text-black dark:text-white' : 'text-muted-foreground'
+                    )}
+                  >
+                    {route.label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </nav>
+      <nav
+        className="mx-6 hidden lg:flex items-center lg:space-x-6">
+        {routes.map((route) => (
+          <Link
+            key={route.href}
+            href={route.href}
+            className={cn(
+              'text-sm font-medium transition-colors hover:text-primary',
+              route.active ? 'text-black dark:text-white' : 'text-muted-foreground'
+            )}
+          >
+            {route.label}
+          </Link>
+        ))}
+      </nav>
+    </>
+
   )
 };

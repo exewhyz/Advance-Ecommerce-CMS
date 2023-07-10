@@ -25,13 +25,20 @@ const Navbar = async () => {
     <div className="border-b">
       <div className="flex h-16 items-center px-4">
         <StoreSwitcher items={stores} />
-        <MainNav className="mx-6" />
+        <MainNav className="mx-5" />
         <div className="ml-auto lg:flex items-center space-x-4 hidden ">
           <ThemeToggle />
-          <UserButton afterSignOutUrl="/"
-            // showName
-            // appearance={{ baseTheme: dark }}
-          />
+          <div className="hidden dark:flex">
+            <UserButton afterSignOutUrl="/"
+              showName
+            appearance={{ baseTheme: dark }}
+            />
+          </div>
+          <div className="dark:hidden">
+            <UserButton afterSignOutUrl="/"
+              showName
+            />
+          </div>
         </div>
         <div className="ml-auto flex lg:hidden items-center space-x-2">
           <ThemeToggle />

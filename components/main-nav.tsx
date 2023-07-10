@@ -74,7 +74,7 @@ export function MainNav({
   return (
     <>
       <nav
-        className={cn("lg:hidden flex items-center space-x-4 lg:space-x-6", className)}
+        className={cn("lg:hidden flex items-center", className)}
         {...props}
       >
         <DropdownMenu>

@@ -20,12 +20,18 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={ {
+        elements: {
+          card : 'dark:text-default text-black'
+        }
+      }}
+    >
       <html lang="en">
         <body className={inter.className}>
-          <ThemeProvider 
-            attribute="class" 
-            defaultTheme="system" 
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
             enableSystem
           >
             <ToastProvider />
